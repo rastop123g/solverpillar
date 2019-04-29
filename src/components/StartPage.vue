@@ -1,8 +1,11 @@
 <template>
     <div class="start-page">
-        <el-divider></el-divider>
+        <h1 class="logoname">olverPillar</h1>
         <el-row>
-          <el-col :span="24">
+            <el-col :span="6">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo in temporibus architecto aliquam nostrum placeat amet iste itaque quas rerum fuga, ipsa, voluptatum quibusdam labore. Accusamus nisi maiores magnam eum.
+            </el-col>
+          <el-col :span="18">
             <object type="image/svg+xml" data="pillar.svg" width="100%" height="400" >
                Your browser does not support SVG
             </object>
@@ -11,9 +14,10 @@
         <el-row>
           <el-col :span="24">
               <h1 id="name">SolverPillar</h1>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo in temporibus architecto aliquam nostrum placeat amet iste itaque quas rerum fuga, ipsa, voluptatum quibusdam labore. Accusamus nisi maiores magnam eum.</p>
+              
           </el-col>
         </el-row>
-        <el-divider></el-divider>
     </div>
 </template>
 
@@ -91,6 +95,12 @@ export default {
 
 #name {
     text-align: center
+}
+
+.logoname {
+    color: #232323;
+    font-size: 79px;
+    margin: 0;
 }
  </style>
  
