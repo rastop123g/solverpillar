@@ -26,11 +26,11 @@ export default {
 </script>
 
 <style scoped>
-
 .content {
   margin-left: 50px;
   padding: 5px;
 }
+
 .footer {
   position: fixed;
   width: 100%;

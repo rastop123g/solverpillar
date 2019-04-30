@@ -5,10 +5,10 @@
         </div>
         <div id="tts">
         <el-tooltip class="item" popper-class="lmtooltip" effect="dark" content="Расчет" placement="right">
-            <el-button plain circle ><i id="isqr" class="fas fa-square-root-alt"></i></el-button>
+            <el-button id="mathbtn" plain circle ><i id="isqr" class="fas fa-square-root-alt"></i></el-button>
         </el-tooltip>
         <el-tooltip class="item" popper-class="lmtooltip" effect="dark" content="Редактор компонентов" placement="right">
-            <el-button plain circle ><i class="el-icon-edit"></i></el-button>
+            <el-button plain circle @click="goEditor"><i class="el-icon-edit"></i></el-button>
         </el-tooltip>
         <el-tooltip class="item" popper-class="lmtooltip" effect="dark" content="Помощь" placement="right">
             <el-button plain circle ><i class="el-icon-help"></i></el-button>
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import router from '../router.js'
+
 export default {
     data (){
         return {
@@ -32,10 +34,11 @@ export default {
         }
     },
     methods: {
-        
+        goEditor () {
+            router.push('/component-editor');
+        },
     },
     mounted (){
-
     }
 }
 </script>
@@ -45,7 +48,7 @@ export default {
     box-shadow: 0 0 5px black;
     padding: 5px;
     display: grid;
-    grid-template-rows: 1fr 4fr 4fr;
+    grid-template-rows: 2.5fr 4fr 4fr;
     align-items: center;
 }
 
@@ -82,9 +85,11 @@ export default {
 
  #Slogo {
     color: white;
-    font-size: 79px;
+    font-size: 64px;
     margin: 0;
     padding: 0;
+    font-family: 'Monoton', cursive;
+    font-weight: 400;
  }
 </style>
 

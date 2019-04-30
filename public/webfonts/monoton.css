@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'Monoton';
+    font-style: normal;
+    font-weight: 400;
+    src: url(Monoton_400_normal.eot); /* http://fonts.gstatic.com/s/monoton/v8/5h1aiZUrOngCibe4TkHLRg.eot */
+    src: local('☺'),
+        url(Monoton_400_normal.eot?#iefix) format('embedded-opentype'), /* http://fonts.gstatic.com/s/monoton/v8/5h1aiZUrOngCibe4TkHLRg.eot */
+        url(Monoton_400_normal.woff2) format('woff2'), /* http://fonts.gstatic.com/s/monoton/v8/5h1aiZUrOngCibe4TkHLQg.woff2 */
+        url(Monoton_400_normal.woff) format('woff'), /* http://fonts.gstatic.com/s/monoton/v8/5h1aiZUrOngCibe4TkHLRA.woff */
+        url(Monoton_400_normal.ttf) format('truetype'), /* http://fonts.gstatic.com/s/monoton/v8/5h1aiZUrOngCibe4TkHLR0a4BU4.ttf */
+        url(Monoton_400_normal.svg#Monoton_400_normal) format('svg'); /* http://fonts.gstatic.com/l/font?kit=5h1aiZUrOngCibe4TkHLRQ&skey=6851b793dcae5a6c&v=v8#Monoton */
+}
