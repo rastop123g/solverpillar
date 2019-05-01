@@ -1,7 +1,7 @@
 <template>
     <div class="left-menu">
         <div id="topspace">
-            <h1 id="Slogo">S</h1>
+            <h1 @click="toStart" id="Slogo">S</h1>
         </div>
         <div id="tts">
         <el-tooltip class="item" popper-class="lmtooltip" effect="dark" content="Расчет" placement="right">
@@ -37,6 +37,9 @@ export default {
         goEditor () {
             router.push('/component-editor');
         },
+        toStart () {
+            router.push('/start')
+        }
     },
     mounted (){
     }
@@ -90,6 +93,7 @@ export default {
     padding: 0;
     font-family: 'Monoton', cursive;
     font-weight: 400;
+    cursor: pointer;
  }
 </style>
 
