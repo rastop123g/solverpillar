@@ -21,6 +21,7 @@
 </template>
 
 <script>
+import router from '../router';
 
 export default {
     name: 'startpage',
@@ -31,9 +32,10 @@ export default {
     },
     mounted () {
         this.stmharrow();
-        document.onresize = () => {
-            this.stmharrow();
-            console.log(this);
+        window.onresize = (event) => {
+            if(router.currentRoute.fullPath == '/start'){
+                this.stmharrow();
+            }
         };
         document.querySelector('#contentSP').style.height = document.querySelector('.start-page').offsetHeight - 105 + 'px';
     }
