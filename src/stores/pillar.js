@@ -5,10 +5,10 @@ export default {
         voltage: Number,
         length: Number,
         weight: Number,
-        Section: String,
+        section: String,
         h: Number,
         h1: Number,
-        B: Number,
+        b: Number,
         t: Number,
         beton: String,
         moment: Number
@@ -27,7 +27,7 @@ export default {
             state.voltage = val
         },
         setSection(state,val){
-            state.Section = val
+            state.section = val
         },
         seth(state,val){
             state.h = val
@@ -36,7 +36,7 @@ export default {
             state.h1 = val
         },
         setB(state,val){
-            state.B = val
+            state.b = val
         },
         sett(state,val){
             state.t = val

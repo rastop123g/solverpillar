@@ -2,20 +2,16 @@
     <div class="component-editor">
         <h1>Редактор компонентов</h1>
         <div class="divtabs">
-        <el-tabs v-model="activeTab" @tab-click="handleClick">
-            <el-tab-pane class="tab-size" label="Опоры" name="pillar">
-                <edit-pillar />
-            </el-tab-pane>
-            <el-tab-pane class="tab-size" label="Провода" name="wire">
-                <edit-wire />
-            </el-tab-pane>
-            <el-tab-pane class="tab-size" label="Изоляторы" name="isolator">
-                <edit-isolator />
-            </el-tab-pane>
-            <el-tab-pane class="tab-size" label="Траверсы" name="traversa">
-                <edit-traversa />
-            </el-tab-pane>
-        </el-tabs>
+        <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal">
+            <el-menu-item index="1" @click="GoTo('EditPillar')">Опоры</el-menu-item>
+            <el-menu-item index="2" @click="GoTo('EditWire')">Провода</el-menu-item>
+            <el-menu-item index="3" @click="GoTo('EditIsolator')">Изоляторы</el-menu-item>
+            <el-menu-item index="4" @click="GoTo('EditTraversa')">Траверсы</el-menu-item>
+        </el-menu>
+        <div class="spacer"></div>
+        <transition name="fade" mode="out-in" appear>
+        <component :is="componentId"></component>
+        </transition>
         </div>
     </div>
 </template>
@@ -29,12 +25,13 @@ import EditTraversa from './EditorContent/EditTraversa'
 export default {
     data () {
         return {
-            activeTab: 'pillar',
+            activeIndex: '1',
+            componentId: ''
         }
     },
     methods: {
-        handleClick(tab, event) {
-            //console.log(tab, event);
+        GoTo (comp) {
+            this.componentId = comp
         }
     },
     components: {
@@ -43,6 +40,9 @@ export default {
         EditIsolator,
         EditTraversa
     },
+    mounted () {
+        this.GoTo('EditPillar')
+    }
 }
 </script>
 
@@ -57,6 +57,17 @@ h1 {
 .divtabs {
     padding-left: 15px;
     padding-right: 15px;
+}
+
+.spacer {
+    height: 10px;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .2s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active до версии 2.1.8 */ {
+  opacity: 0;
 }
 </style>
 
@@ -75,5 +86,12 @@ h1 {
 
 .el-tabs__item {
     font-size: 13pt !important;
+}
+
+.el-menu--horizontal>.el-menu-item {
+    height: 40px !important;
+    line-height: 40px !important;
+    font-size: 16px !important;
+    color:#232323 !important;
 }
 </style>

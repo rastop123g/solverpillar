@@ -9,7 +9,13 @@ export default new Vuex.Store({
     powerline
   },
   state: {
-    prox: 0
+    prox: 0,
+    variantVoltage: [0, 0.4, 10, 35, 110],
+    variantSection: [
+      { name: 'Прямоугольник', value: 'R'},
+      { name: 'Трапеция', value: 'T'}
+    ],
+    beton : ['B15', 'B20', 'B25', 'B30']
   },
   getters: {
   
