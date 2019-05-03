@@ -116,9 +116,10 @@ export default {
         createEl () {
             db.insert(this.validateForm, 'wires').then(data => {
                 if(data.name == this.validateForm.name){
-                    this.$message({
-                        message: 'Вы успешно добавили эллемент',
-                        type: 'success'
+                    this.$notify({
+                      title: 'Успешно',
+                      message: 'Вы успешно добавили компонент',
+                      type: 'success'
                     });
                 }
                 this.getAllel(data._id);
@@ -127,9 +128,10 @@ export default {
         deleteEl () {
             db.remove({_id: this.currentId}, 'wires').then(num => {
                 if(num == 1){
-                    this.$message({
-                        message: 'Вы успешно удалили эллемент',
-                        type: 'success'
+                    this.$notify({
+                      title: 'Успешно',
+                      message: 'Вы успешно удалили компонент',
+                      type: 'success'
                     });
                 }
             })
@@ -138,9 +140,10 @@ export default {
         updateEl () {
             db.update({_id: this.currentId}, this.validateForm, 'wires').then(status =>{
                 if(status == 'ok') {
-                    this.$message({
-                        message: 'Вы успешно изменили эллемент',
-                        type: 'success'
+                    this.$notify({
+                      title: 'Успешно',
+                      message: 'Вы успешно изменили компонент',
+                      type: 'success'
                     });
                 }
             })

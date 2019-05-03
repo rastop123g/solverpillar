@@ -12,7 +12,7 @@ export default {
         traversa
     },
     state: {
-        voltage: Number,
+        voltage: 0,
     },
     mutations: {
         setVoltage(state, val) {

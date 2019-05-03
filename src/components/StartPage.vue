@@ -25,6 +25,11 @@ import router from '../router';
 
 export default {
     name: 'startpage',
+    data () {
+        return {
+            version: ''
+        }
+    },
     methods: {
         stmharrow () {
             document.querySelector('.tag-container').style.top = document.querySelector('#mathbtn').getBoundingClientRect().top - 187 + 'px';

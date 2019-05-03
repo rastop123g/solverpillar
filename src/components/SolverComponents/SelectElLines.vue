@@ -1,0 +1,219 @@
+<template>
+    <div id="select-el-lines">
+        <div class="formrow">
+            <div class="grid-centering">
+                <p class="form-label">Напряжение:</p>
+            </div>
+            <div class="grid-centering">
+                <el-select @change="changeVoltage" v-model="result.voltage" placeholder="Выберите напряжение">
+                  <el-option v-for="volt in voltage" :key="volt" :label="volt" :value="volt"></el-option>
+                </el-select>
+            </div>
+        </div>
+        <div v-if="active.pillars" class="formrow">
+            <div class="grid-centering">
+                <p class="form-label">Опора:</p>
+            </div>
+            <div class="grid-centering">
+                <el-select @change="changePillar" v-model="result.pillar" placeholder="Выберите опору">
+                  <el-option v-for="pillar in pillars" :key="pillar.id" :label="pillar.name" :value="pillar.id"></el-option>
+                </el-select>
+            </div>
+        </div>
+        <div v-if="active.wires" class="formrow">
+            <div class="grid-centering">
+                <p class="form-label">Провод:</p>
+            </div>
+            <div class="grid-centering">
+                <el-select @change="changeWire" v-model="result.wire" placeholder="Выберите провод">
+                  <el-option v-for="wire in wires" :key="wire.id" :label="wire.name" :value="wire.id"></el-option>
+                </el-select>
+            </div>
+        </div>
+        <div v-if="active.wires" class="formrow">
+            <div class="grid-centering">
+                <p class="form-label">Количество:</p>
+            </div>
+            <div class="grid-centering">
+                <el-input placeholder="Введите количество проводов" v-model="result.numwires" />
+            </div>
+        </div>
+        <!--  -->
+        <div v-if="active.isolators" class="formrow">
+            <div class="grid-centering">
+                <p class="form-label">Изолятор:</p>
+            </div>
+            <div class="grid-centering">
+                <el-select v-model="result.isolator" placeholder="Выберите Изолятор">
+                  <el-option v-for="isolator in isolators" :key="isolator.id" :label="isolator.name" :value="isolator.id"></el-option>
+                </el-select>
+            </div>
+        </div>
+        <div v-if="active.isolators" class="formrow">
+            <div class="grid-centering">
+                <p class="form-label">Траверса:</p>
+            </div>
+            <div class="grid-centering">
+                <el-select v-model="result.traversa" placeholder="Выберите Траверсу">
+                  <el-option v-for="traversa in traverses" :key="traversa.id" :label="traversa.name" :value="traversa.id"></el-option>
+                </el-select>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import store from '../../store.js'
+import db from '../../ipc/ipcRenderer.js'
+
+export default {
+    data () {
+        return {
+            active: {
+                pillars: false,
+                wires: false,
+                isolators: false,
+            },
+            result: {},
+            wires: [],
+            pillars: [],
+            isolators: [],
+            traverses: [],
+            sort: (a, b) => {
+                    if(a.name < b.name){
+                        return -1
+                    } else {
+                        return 1
+                    }
+                },
+        }
+    },
+    methods : {
+        clearResult (list) {
+            list.forEach(item => {
+                delete this.result[item]
+            })
+        },
+        clearEl (list) {
+            list.forEach(item => {
+                this[item] = []
+            })
+        },
+        clearAct (list) {
+            list.forEach(item => {
+                this.active[item] = false
+            })
+        },
+        clear (obj) {
+            this.clearResult(obj.R);
+            this.clearEl(obj.E);
+            this.clearAct(obj.A);
+        },
+        changeVoltage () {
+            this.clear({
+                R: ['pillar', 'wire', 'isolator', 'traversa'],
+                E: ['pillars', 'wires', 'isolators', 'traverses'],
+                A: ['pillars', 'wires', 'isolators']
+            })
+            db.select({ $or : [{voltage: this.result.voltage}, {voltage: 0}]}, 'pillars').then(data => {
+                this.pillars = []
+                data.forEach((item, i) => {
+                    this.pillars.push({
+                        id: item._id,
+                        name: item.name
+                    })
+                })
+                this.pillars.sort(this.sort)
+                this.active.pillars = true
+            })
+        },
+        changePillar () {
+            this.clear({
+                R: ['wire', 'isolator', 'traversa'],
+                E: ['wires', 'isolators', 'traverses'],
+                A: ['wires', 'isolators']
+            })
+            db.select({ $or : [{voltage: this.result.voltage}, {voltage: 0}]}, 'wires').then(data => {
+                this.wires = []
+                data.forEach((item, i) => {
+                    this.wires.push({
+                        id: item._id,
+                        name: item.name,
+                        isolator: item.isolator
+                    })
+                })
+                this.wires.sort(this.sort)
+                this.active.wires = true
+            })
+        },
+        changeWire () {
+            this.clear({
+                R: ['isolator', 'traversa'],
+                E: ['isolators', 'traverses'],
+                A: ['isolators']
+            })
+            this.wires.forEach((item, i) => {
+                if(item.id == this.result.wire && item.isolator == true) {
+                    db.select({ $or : [{voltage: this.result.voltage}, {voltage: 0}]}, 'isolators').then(data => {
+                        this.isolators = []
+                        data.forEach((item, i) => {
+                            this.isolators.push({
+                                id: item._id,
+                                name: item.name
+                            })
+                        })
+                        this.isolators.sort(this.sort)
+                        db.select({ $or : [{voltage: this.result.voltage}, {voltage: 0}]}, 'traverses').then(data => {
+                            this.traverses = []
+                            data.forEach((item, i) => {
+                                this.traverses.push({
+                                    id: item._id,
+                                    name: item.name
+                                })
+                            })
+                            this.traverses.sort(this.sort)
+                            this.active.isolators = true;
+                        })
+                    })
+                }
+            })
+        }
+    },
+    computed: {
+        voltage () {
+            return store.state.variantVoltage.slice(1)
+        }
+    }
+}
+</script>
+
+<style scoped>
+#select-el-lines {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    align-items: center;
+    grid-gap: 15px;
+}
+
+</style>
+
+<style>
+.formrow {
+    display: grid;
+    grid-template-columns: 200px 300px;
+    align-content: center;
+}
+
+.form-label {
+    text-align: right;
+    padding-right: 10px;
+    margin: 0;
+    line-height: 40px;
+}
+
+.grid-centering {
+    display: grid;
+    align-items: center;
+}
+</style>

@@ -1,10 +1,10 @@
 export default {
     namespaced: true,
     state: {
-        name: String,
-        voltage: Number,
-        weight: Number,
-        area: Number
+        name: '',
+        voltage: 0,
+        weight: 0,
+        area: 0
     },
     mutations: {
         setName(state, val){

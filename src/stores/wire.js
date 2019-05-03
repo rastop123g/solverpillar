@@ -1,11 +1,11 @@
 export default {
     namespaced: true,
     state: {
-        name: String,
-        voltage: Number,
-        weight: Number,
-        diametr: Number,
-        isolator: Boolean,
+        name: '',
+        voltage: '',
+        weight: '',
+        diametr: '',
+        isolator: '',
     },
     mutations: {
         setName(state, val){
