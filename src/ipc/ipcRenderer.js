@@ -1,12 +1,21 @@
 import {ipcRenderer} from 'electron'
 require('events').EventEmitter.defaultMaxListeners = 50;
+
+let id = 0;
+
+let getChanel = function() {
+    return id++;
+}
+
 let select = function(selector, dbname){
     let promise = new Promise((resolve) => {
+        let chanel = String(getChanel())
         ipcRenderer.send('select_db', {
             selector,
-            dbname
+            dbname,
+            chanel
         })
-        ipcRenderer.once('select_data', (event, data) => {
+        ipcRenderer.once(chanel, (event, data) => {
             resolve(data)
         })
     })
@@ -15,11 +24,13 @@ let select = function(selector, dbname){
 
 let insert = function(page, dbname){
     let promise = new Promise((resolve) => {
+        let chanel = String(getChanel())
         ipcRenderer.send('insert_db', {
             page,
-            dbname
+            dbname,
+            chanel
         })
-        ipcRenderer.once('insert_check', (event, data) => {
+        ipcRenderer.once(chanel, (event, data) => {
             resolve(data)
         })
     }) 
@@ -28,11 +39,13 @@ let insert = function(page, dbname){
 
 let remove = function(selector, dbname){
     let promise = new Promise((resolve) => {
+        let chanel = String(getChanel())
         ipcRenderer.send('remove_db', {
             selector,
-            dbname
+            dbname,
+            chanel
         })
-        ipcRenderer.once('remove_check', (event, num) => {
+        ipcRenderer.once(chanel, (event, num) => {
             resolve(num)
         })
     })
@@ -41,12 +54,14 @@ let remove = function(selector, dbname){
 
 let update = function(selector, newDoc, dbname){
     let promise = new Promise((resolve) => {
+        let chanel = String(getChanel())
         ipcRenderer.send('update_db', {
             selector,
             dbname,
-            newDoc
+            newDoc,
+            chanel
         })
-        ipcRenderer.once('update_check', (event, check) => {
+        ipcRenderer.once(chanel, (event, check) => {
             resolve(check)
         })
     })

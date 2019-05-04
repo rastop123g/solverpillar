@@ -3,7 +3,7 @@
         <h1>Расчет Максимального пролета</h1>
         <div class="solver-content">
             <el-main id="main">
-                <component :is="idComponent"></component>
+                <component :is="idComponent" @next="nextComponent"></component>
             </el-main>
             <el-steps :active="active" align-center finish-status="success" process-status="finish">
               <el-step title="Этап 1" description="Выбор элементов линии"></el-step>
@@ -15,17 +15,29 @@
 </template>
 
 <script>
-import SeclectElLines from './SolverComponents/SelectElLines'
+import SelectElLines from './SolverComponents/SelectElLines'
+import SelectClimat from './SolverComponents/SelectClimat'
+import Wait from './SolverComponents/Wait'
 
 export default {
     data () {
         return {
             active: 0,
-            idComponent: 'SeclectElLines'
+            idComponent: 'SelectElLines',
+            listComponents: ['SelectElLines', 'SelectClimat', 'Wait'],
+            currentCid: 0
         }
     },
     components: {
-        SeclectElLines
+        SelectElLines,
+        SelectClimat,
+        Wait
+    },
+    methods: {
+        nextComponent () {
+            this.idComponent = this.listComponents[++this.currentCid];
+            this.active++;
+        }
     }
 }
 </script>

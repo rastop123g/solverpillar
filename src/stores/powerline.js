@@ -13,10 +13,18 @@ export default {
     },
     state: {
         voltage: 0,
+        numwires: 0,
+        climat: {}
     },
     mutations: {
         setVoltage(state, val) {
             state.voltage = val
+        },
+        setNumwires(state, val) {
+            state.numwires = val
+        },
+        setClimat(state, payload) {
+            state.climat = payload
         }
     }
 }

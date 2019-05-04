@@ -1,3 +1,5 @@
+import db from '../ipc/ipcRenderer'
+
 export default {
     namespaced: true,
     state: {
@@ -46,6 +48,25 @@ export default {
         },
         setMoment(state,val){
             state.moment = val
+        }
+    },
+    actions: {
+        setPillar({commit}, payload) {
+            db.select({_id: payload}, 'pillars').then(data => {
+                data.forEach(data => {
+                    commit('setName', data.name);
+                    commit('setWeight', data.weight);
+                    commit('setLength', data.length);
+                    commit('setVoltage', data.voltage);
+                    commit('setSection', data.section);
+                    commit('seth', data.h);
+                    commit('seth1', data.h1);
+                    commit('setB', data.b);
+                    commit('sett', data.t);
+                    commit('setBeton', data.beton);
+                    commit('setMoment', data.moment);
+                })
+            })
         }
     }
 }

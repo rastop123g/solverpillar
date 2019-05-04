@@ -15,7 +15,8 @@ export default new Vuex.Store({
       { name: 'Прямоугольник', value: 'R'},
       { name: 'Трапеция', value: 'T'}
     ],
-    beton : ['B15', 'B20', 'B25', 'B30']
+    beton : ['B15', 'B20', 'B25', 'B30'],
+    result: {}
   },
   getters: {
   
@@ -24,6 +25,12 @@ export default new Vuex.Store({
     
   },
   actions: {
-
+    calculate(context) {
+      let worker = new Worker('calc.js')
+      worker.postMessage(context.state.powerline)
+      worker.addEventListener('message', e => {
+        console.log(e.data)
+      })
+    }
   }
 })

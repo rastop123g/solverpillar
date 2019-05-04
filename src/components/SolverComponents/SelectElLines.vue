@@ -35,8 +35,10 @@
                 <p class="form-label">Количество:</p>
             </div>
             <div class="grid-centering">
-                <el-input placeholder="Введите количество проводов" v-model="result.numwires" />
+                <el-input placeholder="Введите количество проводов" :class="{error : isError}" v-model="result.numwires" />
             </div>
+            <div v-if="isError"></div>
+            <p v-if="isError" style="margin:0; color: #F56C6C">Введите целое число</p>
         </div>
         <!--  -->
         <div v-if="active.isolators" class="formrow">
@@ -44,7 +46,7 @@
                 <p class="form-label">Изолятор:</p>
             </div>
             <div class="grid-centering">
-                <el-select v-model="result.isolator" placeholder="Выберите Изолятор">
+                <el-select @change="changeIT" v-model="result.isolator" placeholder="Выберите Изолятор">
                   <el-option v-for="isolator in isolators" :key="isolator.id" :label="isolator.name" :value="isolator.id"></el-option>
                 </el-select>
             </div>
@@ -54,11 +56,12 @@
                 <p class="form-label">Траверса:</p>
             </div>
             <div class="grid-centering">
-                <el-select v-model="result.traversa" placeholder="Выберите Траверсу">
+                <el-select @change="changeIT" v-model="result.traversa" placeholder="Выберите Траверсу">
                   <el-option v-for="traversa in traverses" :key="traversa.id" :label="traversa.name" :value="traversa.id"></el-option>
                 </el-select>
             </div>
         </div>
+        <el-button v-if="isAll" type="success" round @click="next">Продолжить <i class="el-icon-right"></i></el-button>
     </div>
 </template>
 
@@ -79,6 +82,9 @@ export default {
             pillars: [],
             isolators: [],
             traverses: [],
+            isError: false,
+            changed: false,
+            isAll: false,
             sort: (a, b) => {
                     if(a.name < b.name){
                         return -1
@@ -86,6 +92,31 @@ export default {
                         return 1
                     }
                 },
+        }
+    },
+    computed: {
+        voltage () {
+            return store.state.variantVoltage.slice(1)
+        },
+        nums () {
+            return this.result.numwires
+        }
+    },
+    watch: {
+        changed () {
+            if(this.active.isolators) {
+                this.isAll = (Object.keys(this.result).length == 6) ? true : false
+            } else {
+                this.isAll = (Object.keys(this.result).length == 4) ? true : false
+            }
+        },
+        nums () {
+            this.changed = !this.changed
+            if(~this.result.numwires.indexOf('.') || ~this.result.numwires.indexOf(',')) {
+                this.isError = true;
+            } else {
+                this.isError = false;
+            }
         }
     },
     methods : {
@@ -110,8 +141,9 @@ export default {
             this.clearAct(obj.A);
         },
         changeVoltage () {
+            this.changed = !this.changed
             this.clear({
-                R: ['pillar', 'wire', 'isolator', 'traversa'],
+                R: ['pillar', 'wire', 'numwires', 'isolator', 'traversa'],
                 E: ['pillars', 'wires', 'isolators', 'traverses'],
                 A: ['pillars', 'wires', 'isolators']
             })
@@ -128,8 +160,9 @@ export default {
             })
         },
         changePillar () {
+            this.changed = !this.changed
             this.clear({
-                R: ['wire', 'isolator', 'traversa'],
+                R: ['wire', 'numwires', 'isolator', 'traversa'],
                 E: ['wires', 'isolators', 'traverses'],
                 A: ['wires', 'isolators']
             })
@@ -147,8 +180,9 @@ export default {
             })
         },
         changeWire () {
+            this.changed = !this.changed
             this.clear({
-                R: ['isolator', 'traversa'],
+                R: ['numwires', 'isolator', 'traversa'],
                 E: ['isolators', 'traverses'],
                 A: ['isolators']
             })
@@ -163,27 +197,32 @@ export default {
                             })
                         })
                         this.isolators.sort(this.sort)
-                        db.select({ $or : [{voltage: this.result.voltage}, {voltage: 0}]}, 'traverses').then(data => {
-                            this.traverses = []
-                            data.forEach((item, i) => {
-                                this.traverses.push({
-                                    id: item._id,
-                                    name: item.name
-                                })
+                    })
+                    db.select({ $or : [{voltage: this.result.voltage}, {voltage: 0}]}, 'traverses').then(data => {
+                        this.traverses = []
+                        data.forEach((item, i) => {
+                            this.traverses.push({
+                                id: item._id,
+                                name: item.name
                             })
-                            this.traverses.sort(this.sort)
-                            this.active.isolators = true;
                         })
+                        this.traverses.sort(this.sort)
+                        this.active.isolators = true;
                     })
                 }
             })
+        },
+        changeIT () {
+            this.changed = !this.changed
+        },
+        next () {
+            store.dispatch('powerline/pillar/setPillar', this.result.pillar)
+            store.dispatch('powerline/wire/setWire', this.result.wire)
+            store.dispatch('powerline/isolator/setIsolator', this.result.isolator)
+            store.dispatch('powerline/traversa/setTraversa', this.result.traversa)
+            this.$emit('next')
         }
     },
-    computed: {
-        voltage () {
-            return store.state.variantVoltage.slice(1)
-        }
-    }
 }
 </script>
 
@@ -201,7 +240,7 @@ export default {
 <style>
 .formrow {
     display: grid;
-    grid-template-columns: 200px 300px;
+    grid-template-columns: 250px 300px;
     align-content: center;
 }
 

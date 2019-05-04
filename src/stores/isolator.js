@@ -1,3 +1,5 @@
+import db from '../ipc/ipcRenderer'
+
 export default {
     namespaced: true,
     state: {
@@ -18,6 +20,20 @@ export default {
         },
         setVoltage(state,val){
             state.voltage = val
+        }
+    },
+    actions: {
+        setIsolator({commit}, payload) {
+            if(payload != undefined) {
+                db.select({_id: payload}, 'isolators').then(data => {
+                    data.forEach(data => {
+                        commit('setName', data.name);
+                        commit('setWeight', data.weight);
+                        commit('setArea', data.area);
+                        commit('setVoltage', data.voltage);
+                    })
+                })
+            }
         }
     }
 }
