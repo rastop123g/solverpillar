@@ -14,6 +14,7 @@ export default {
     state: {
         voltage: 0,
         numwires: 0,
+        underground: 0,
         climat: {}
     },
     mutations: {
@@ -22,6 +23,9 @@ export default {
         },
         setNumwires(state, val) {
             state.numwires = val
+        },
+        setUnderground(state, val) {
+            state.underground = val
         },
         setClimat(state, payload) {
             state.climat = payload

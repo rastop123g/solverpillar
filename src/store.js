@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import powerline from './stores/powerline';
+import settings from './stores/settings'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
-    powerline
+    powerline,
+    settings
   },
   state: {
     prox: 0,
@@ -16,7 +18,7 @@ export default new Vuex.Store({
       { name: 'Трапеция', value: 'T'}
     ],
     beton : ['B15', 'B20', 'B25', 'B30'],
-    result: {}
+    result: {},
   },
   getters: {
   
@@ -27,9 +29,10 @@ export default new Vuex.Store({
   actions: {
     calculate(context) {
       let worker = new Worker('calc.js')
-      worker.postMessage(context.state.powerline)
+      worker.postMessage({line: context.state.powerline, settings: context.state.settings })
       worker.addEventListener('message', e => {
         console.log(e.data)
+        worker.terminate()
       })
     }
   }

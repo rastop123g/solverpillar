@@ -20,6 +20,14 @@
                 </el-select>
             </div>
         </div>
+        <div v-if="active.pillars" class="formrow">
+            <div class="grid-centering">
+                <p class="form-label">Глубина заглубления:</p>
+            </div>
+            <div class="grid-centering">
+                <el-input placeholder="Введите глубину в метрах" v-model="result.underground" />
+            </div>
+        </div>
         <div v-if="active.wires" class="formrow">
             <div class="grid-centering">
                 <p class="form-label">Провод:</p>
@@ -100,14 +108,17 @@ export default {
         },
         nums () {
             return this.result.numwires
+        },
+        under () {
+            return this.result.underground
         }
     },
     watch: {
         changed () {
             if(this.active.isolators) {
-                this.isAll = (Object.keys(this.result).length == 6) ? true : false
+                this.isAll = (Object.keys(this.result).length == 7) ? true : false
             } else {
-                this.isAll = (Object.keys(this.result).length == 4) ? true : false
+                this.isAll = (Object.keys(this.result).length == 5) ? true : false
             }
         },
         nums () {
@@ -117,6 +128,9 @@ export default {
             } else {
                 this.isError = false;
             }
+        },
+        under () {
+            this.changed = !this.changed
         }
     },
     methods : {
@@ -143,7 +157,7 @@ export default {
         changeVoltage () {
             this.changed = !this.changed
             this.clear({
-                R: ['pillar', 'wire', 'numwires', 'isolator', 'traversa'],
+                R: ['pillar', 'underground', 'wire', 'numwires', 'isolator', 'traversa'],
                 E: ['pillars', 'wires', 'isolators', 'traverses'],
                 A: ['pillars', 'wires', 'isolators']
             })
@@ -216,6 +230,9 @@ export default {
             this.changed = !this.changed
         },
         next () {
+            store.commit('powerline/setVoltage', this.result.voltage)
+            store.commit('powerline/setNumwires', this.result.numwires)
+            store.commit('powerline/setUnderground', this.result.underground)
             store.dispatch('powerline/pillar/setPillar', this.result.pillar)
             store.dispatch('powerline/wire/setWire', this.result.wire)
             store.dispatch('powerline/isolator/setIsolator', this.result.isolator)
