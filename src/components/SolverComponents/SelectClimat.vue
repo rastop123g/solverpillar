@@ -10,10 +10,26 @@
         </div>
         <div class="formrow">
             <div class="grid-centering">
+                <p class="form-label">Кф ветрового давления:</p>
+            </div>
+            <div class="grid-centering">
+                <el-input placeholder="зависит от местности" v-model="result.K_w" />
+            </div>
+        </div>
+        <div class="formrow">
+            <div class="grid-centering">
                 <p class="form-label">Гололед:</p>
             </div>
             <div class="grid-centering">
                 <el-input placeholder="Номинальная толщина стенки гололеда" v-model="result.ice" />
+            </div>
+        </div>
+        <div class="formrow">
+            <div class="grid-centering">
+                <p class="form-label">Кф гололедообразования:</p>
+            </div>
+            <div class="grid-centering">
+                <el-input placeholder="зависит от условий эксплуатации" v-model="result.K_ice" />
             </div>
         </div>
         <div class="formrow">
@@ -52,7 +68,7 @@ export default {
     },
     methods: {
         next() {
-            if(Object.keys(this.result).length < 4) {
+            if(Object.keys(this.result).length < 6) {
                 this.isAll = true
             } else {
             this.$store.commit('powerline/setClimat', this.validated(this.result))
@@ -62,7 +78,9 @@ export default {
         validated(obj) {
             return {
                 wind: toN(obj.wind),
+                K_w: toN(obj.K_w),
                 ice: toN(obj.ice),
+                K_ice: toN(obj.K_ice),
                 maxt: toN(obj.maxt),
                 mint: toN(obj.mint)
             }

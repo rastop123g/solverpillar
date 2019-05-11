@@ -8,6 +8,7 @@
             <h1>SolverPillar</h1>
             <p>Версия: {{version}}</p>
             <p>Автор: Растопчин А.С.</p>
+            <p>Руководитель: Абдюкаева А.Ф.</p>
             <p>Email: rastop123g@gmail.com</p>
             </div>
             </div>

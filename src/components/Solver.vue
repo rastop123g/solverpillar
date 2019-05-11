@@ -18,20 +18,22 @@
 import SelectElLines from './SolverComponents/SelectElLines'
 import SelectClimat from './SolverComponents/SelectClimat'
 import Wait from './SolverComponents/Wait'
+import ShowResult from './SolverComponents/ShowResult'
 
 export default {
     data () {
         return {
             active: 0,
             idComponent: 'SelectElLines',
-            listComponents: ['SelectElLines', 'SelectClimat', 'Wait'],
+            listComponents: ['SelectElLines', 'SelectClimat', 'Wait', 'ShowResult'],
             currentCid: 0
         }
     },
     components: {
         SelectElLines,
         SelectClimat,
-        Wait
+        Wait,
+        ShowResult
     },
     methods: {
         nextComponent () {

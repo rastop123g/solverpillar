@@ -16,9 +16,11 @@
   },
   "main": "background.js",
   "dependencies": {
+    "chart.js": "^2.8.0",
     "core-js": "^2.6.5",
     "element-ui": "^2.8.2",
     "nedb": "^1.8.0",
+    "plotly.js-dist": "^1.47.4",
     "vue": "^2.6.10",
     "vue-router": "^3.0.6",
     "vuex": "^3.0.1"

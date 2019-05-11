@@ -9,9 +9,13 @@
 export default {
     mounted () {
         this.$store.dispatch('calculate')
-        setTimeout(() => {
-            this.$emit('next')
-        }, 3000)
+        this.timer = setInterval(() => {
+            if(this.$store.state.ready == true) {
+                this.$emit('next')
+                clearInterval(this.timer)
+                this.$store.commit('ready', false)
+            }
+        })
     }
 }
 </script>

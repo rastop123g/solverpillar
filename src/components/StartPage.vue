@@ -13,7 +13,7 @@
             </div>
             <div class="SPleft">
                 <img src="../../public/img/anker.png" height="450px" alt="anker">
-                <el-button type="default" id="go-calc" round>Перейти к расчету <i class="el-icon-arrow-right"></i></el-button>
+                <el-button type="default" id="go-calc" @click="gocalc" round>Перейти к расчету <i class="el-icon-arrow-right"></i></el-button>
                 <div></div>
             </div>
         </div>
@@ -34,6 +34,9 @@ export default {
         stmharrow () {
             document.querySelector('.tag-container').style.top = document.querySelector('#mathbtn').getBoundingClientRect().top - 187 + 'px';
         },
+        gocalc() {
+            this.$router.push('/solver')
+        }
     },
     mounted () {
         this.stmharrow();
