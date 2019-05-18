@@ -76,6 +76,7 @@
 <script>
 import store from '../../store.js'
 import db from '../../ipc/ipcRenderer.js'
+import commFn from '../../commFn'
 
 export default {
     data () {
@@ -232,7 +233,7 @@ export default {
         next () {
             store.commit('powerline/setVoltage', this.result.voltage)
             store.commit('powerline/setNumwires', this.result.numwires)
-            store.commit('powerline/setUnderground', this.result.underground)
+            store.commit('powerline/setUnderground', commFn.toN(this.result.underground))
             store.dispatch('powerline/pillar/setPillar', this.result.pillar)
             store.dispatch('powerline/wire/setWire', this.result.wire)
             store.dispatch('powerline/isolator/setIsolator', this.result.isolator)
