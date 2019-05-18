@@ -5,8 +5,6 @@
 </template>
 
 <script>
-import Plotly from 'plotly.js-dist';
-
 export default {
     props: ['name', 'data'],
     mounted () {
@@ -33,14 +31,14 @@ export default {
                 title: this.data.yname
             }
         };
-        Plotly.newPlot(this.$refs.$graph, [line1], layout, {staticPlot: true})
+        Plotly.plot(this.$refs.$graph, [line1], layout, {staticPlot: true})
     }
 }
 </script>
 
 <style scoped>
     #Nzgraph {
-        width: 100%;
+        width: 95%;
         height: 450px;
     }
 </style>
