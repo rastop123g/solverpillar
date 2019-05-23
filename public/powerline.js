@@ -242,7 +242,7 @@ function K_bd(d) {
         }
         else {
             buffer_max = item[1]
-            return (buffer_max + buffer_min) / 2
+            return true
         }
     })
     return (buffer_max + buffer_min) / 2
